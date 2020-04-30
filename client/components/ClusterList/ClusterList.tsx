@@ -1,38 +1,29 @@
 import React from 'react';
-import { Query, withApollo } from 'react-apollo';
-import { Spin } from 'antd';
-import { Link } from 'react-router';
-import query from './query';
+import { Select, Row, Col } from 'antd';
+import { Button, Icon } from "snowy";
 
-export default function ClusterList({ children }) {
-  if (children) {
-    return children;
-  }
+const plusIco = {
+  viewBox: '0 0 24 24',
+  path: (
+    <polygon points="18,12.9 12.9,12.9 12.9,18 11.1,18 11.1,12.9 6,12.9 6,11.1 11.1,11.1 11.1,6 12.9,6 12.9,11.1 18,11.1 " />
+  ),
+};
+
+export default function ClusterList(props) {
+  const { router, children } = props
+  if (children) return children
 
   return (
-    <Query
-      query={query}
-    >
-      {
-        ({ data, loading }) => {
-          if (loading) {
-            return <Spin />
-          }
-
-          return (
-            <>
-              cluster list:
-            <ol>
-              {
-                data.clusterCollection.nodes.map(({ name, phase }) => (
-                  <li key={name}>{name}, status: {phase} <Link to={`/clusters/${name}`}>detail</Link></li>
-                ))
-              }
-            </ol>
-            </>
-          )
-        }
-      }
-    </Query>
+    <Row>
+      <Col>
+        <Button type='primary' onClick={() => router.push('/clusters/add')}>
+          <Icon type={plusIco} />
+          新增
+        </Button>
+      </Col>
+      <Col style={{ marginTop: 20 }}>
+        <Select style={{width: 120 }}/>
+      </Col>
+    </Row>
   );
 }

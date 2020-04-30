@@ -13,13 +13,23 @@ const ClusterDetailPage = Loadable({
   loading: Spin,
 });
 
+const ClusterAddPage = Loadable({
+  loader: () => import('../components/ClusterAdd'),
+  loading: Spin,
+});
+
 export default {
-  path: '/clusters',
+  path: 'clusters',
   name: 'Cluster Management',
   component: ClusterListPage,
   childRoutes: [
     {
-      path: '/clusters/:name',
+      path: 'add',
+      name: 'Cluster Add',
+      component: ClusterAddPage,
+    },
+    {
+      path: ':name',
       name: 'Cluster Detail',
       component: ClusterDetailPage,
     },
